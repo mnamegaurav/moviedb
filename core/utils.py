@@ -7,13 +7,12 @@ def get_movie_data(title=''):
     res = requests.get(
         settings.OMDB_API_URL,
         params={
-            's': title,
+            't': title,
             'apikey': settings.OMDB_API_KEY
         }
     )
 
     if res.status_code == 200:
-        breakpoint()
         return res.json()
 
     return

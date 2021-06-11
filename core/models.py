@@ -4,6 +4,7 @@ from django.db import models
 
 
 class Movie(models.Model):
+    title = models.CharField(max_length=250, null=True, blank=True)
     details = models.JSONField(verbose_name="Movie Details")
     added_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -13,6 +14,10 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.details.get('Title', 'N/A: Not Found')
+
+    def save(self, *args, **kwargs):
+        self.title = self.details.get('Title', '')
+        return super().save(*args, **kwargs)
 
 
 class Comment(models.Model):

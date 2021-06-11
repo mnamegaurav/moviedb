@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
 from rest_framework import filters, status
@@ -6,42 +8,50 @@ from core.models import Comment, Movie
 from core.filters import CommentFilter
 from core.api.serializers import (
     MovieSerializer,
-    CommentSerializer
+    MovieTitleSerializer,
+    CommentSerializer,
 )
 from core.utils import get_movie_data
 # Create your views here.
 
 
 class MoviesAPIView(ListCreateAPIView):
-    serializer_class = MovieSerializer
+    serializer_class = MovieTitleSerializer
+    movie_serializer_class = MovieSerializer
     queryset = Movie.objects.all()
-    filter_backends = (filters.SearchFilter, filters.OrderingFilter,)
+    filter_backends = (filters.OrderingFilter,)
     ordering_fields = (
         'details__Year', 'details__Released', 'details__Runtime',
         'details__Runtime', 'details__Country', 'details__imdbRating',
         'details__imdbVotes',
     )
-    search_fields = ('details__Title',)
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
+    def get(self, request, format=None):
+        serializer = self.movie_serializer_class(
+            self.get_queryset(), many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        search_title = request.data.get('title', '')
+        queryset = self.get_queryset().filter(
+            Q(details__has_key='Title') & Q(title__icontains=search_title)
+        )
 
         # check if movie title is already available in db
         if queryset.count() == 0:
             # if not then search from omdbapi
+            movie_data = get_movie_data(title=search_title)
             # save the results from omdb to db
-            search_query = request.query_params.get('search')
-            movie_datas = get_movie_data(title=search_query)
-            serializer = self.serializer_class(
-                data={"details": movie_datas}, many=True)
+            serializer = self.movie_serializer_class(
+                data={'details': movie_data},
+            )
             if serializer.is_valid(raise_exception=True):
+                # save all the new movies
                 serializer.save()
-                # response = Response(serializer.data,
-                #                     status=status.HTTP_201_CREATED)
+        else:
+            serializer = self.movie_serializer_class(queryset, many=True)
 
-            queryset = self.filter_queryset(self.get_queryset())
-
-        return super().list(request, *args, **kwargs)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
 class CommentsAPIView(ListCreateAPIView):
