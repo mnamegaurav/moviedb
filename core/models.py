@@ -9,7 +9,7 @@ class Movie(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['added_on', 'updated_on']
+        ordering = ('added_on', 'updated_on',)
 
     def __str__(self):
         return self.details.get('Title', 'N/A: Not Found')
@@ -25,4 +25,4 @@ class Comment(models.Model):
         return self.text
 
     class Meta:
-        ordering = ['added_on', 'updated_on']
+        ordering = ('added_on', 'updated_on',)

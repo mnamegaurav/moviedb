@@ -27,7 +27,7 @@ if os.path.isfile(dotenv_file):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = ''
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", False)
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     # third party apps
     'rest_framework',
+    'django_filters',
 
     # local apps
     'core.apps.CoreConfig',
@@ -137,11 +138,11 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ["DB_NAME"],
-            "USER": os.environ["DB_USER"],
-            "PORT": os.environ["DB_PORT"],
-            "HOST": os.environ["DB_HOST"],
-            "PASSWORD": os.environ["DB_PASSWORD"],
+            "NAME": os.environ.get("DB_NAME"),
+            "USER": os.environ.get("DB_USER"),
+            "PORT": os.environ.get("DB_PORT"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
         }
     }
 
@@ -158,4 +159,10 @@ REST_FRAMEWORK = {
     'DEFAULT_RPERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
 }
+
+OMDB_API_KEY = os.environ.get('OMDB_API_KEY')
+OMDB_API_URL = "http://www.omdbapi.com/"
