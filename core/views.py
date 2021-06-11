@@ -33,15 +33,16 @@ class MoviesAPIView(ListCreateAPIView):
 
     def post(self, request, format=None):
         search_title = request.data.get('title', '')
+
+        # check if movie title is already available in db
         queryset = self.get_queryset().filter(
             Q(details__has_key='Title') & Q(title__icontains=search_title)
         )
 
-        # check if movie title is already available in db
+        # if not then search from omdbapi
         if queryset.count() == 0:
-            # if not then search from omdbapi
             movie_data = get_movie_data(title=search_title)
-            # save the results from omdb to db
+            # save the results from omdb to current db
             serializer = self.movie_serializer_class(
                 data={'details': movie_data},
             )

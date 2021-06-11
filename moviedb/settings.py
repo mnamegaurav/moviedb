@@ -134,7 +134,7 @@ if DEBUG:
         }
     }
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ["https://mnamegaurav-moviedb.herokuapp.com", ]
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
