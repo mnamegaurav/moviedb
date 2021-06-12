@@ -24,16 +24,31 @@ A simple REST API for a basic movie database interacting with external API. Here
 
 
 
-### Set this project locally :computer:
+### Set this project locally (docker process) :computer:
 
-1. Fork this Repository (or Download the Zip file directly and start from the step 3).
+1. Open terminal / command prompt and Clone the project using 
+    ```bash
+    $ git clone https://github.com/mnamegaurav/moviedb.git
+    ```
 
-2. Open terminal / command prompt and Clone the project using 
+2. Install docker and run this command in your system:
+    ```bash
+    # docker build -t moviedb:latest .     
+    ```
+
+3. Run this project:
+    ```bash
+    # docker run --name moviedb -d -p 8000:8000 moviedb:latest
+    ```
+
+### Set this project locally (manual process) :computer:
+
+1. Open terminal / command prompt and Clone the project using 
     ```bash
     git clone https://github.com/mnamegaurav/moviedb.git
     ```
   
-3. Create a python3 virtual environment:
+2. Create a python3 virtual environment:
 
     ```bash
     $ python3 -m venv venv
@@ -45,7 +60,7 @@ A simple REST API for a basic movie database interacting with external API. Here
     $ virtualenv venv
     ```
 
-4. Activate the virtual environment:
+3. Activate the virtual environment:
 
     On Linux or Mac or any Unix based system-
     
@@ -58,25 +73,25 @@ A simple REST API for a basic movie database interacting with external API. Here
     > venv\Scripts\activate
     ```
 
-5. Now Install the dependecies:
+4. Now Install the dependecies:
 
     ```bash
     $ pip install -r requirements.txt
     ```
 
     
-6. Rename the `.env.example` file to `.env`:
+5. Rename the `.env.example` file to `.env`:
     ```
     Do not forget to put your values in the new `.env` file to run the project without any issues.
     ```
 
-7. Run the `migrate` command:
+6. Run the `migrate` command:
 
     ```bash
     $ python manage.py migrate
     ```
 
-8. Now you are ready to go:
+7. Now you are ready to go:
 
     #### Run the application
 
