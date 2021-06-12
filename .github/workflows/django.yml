@@ -22,10 +22,10 @@ jobs:
           push: true
           tags: mnamegaurav/moviedb:moviedb
           build-args: |
-            SECRET_KEY=${{ SECRET_KEY }}
-            OMDB_API_KEY=${{ OMDB_API_KEY }}
-            DB_NAME=${{ DB_NAME }}
-            DB_HOST=${{ DB_HOST }}
-            DB_PASSWORD=${{ DB_PASSWORD }}
-            DB_USER=${{ DB_USER }}
-            DB_PORT=${{ DB_PORT }}
+            SECRET_KEY=${{ secrets.SECRET_KEY }}
+            OMDB_API_KEY=${{ secrets.OMDB_API_KEY }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_HOST=${{ secrets.DB_HOST }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PORT=${{ secrets.DB_PORT }}
