@@ -1,6 +1,8 @@
 # Movie DB
 ### This is a simple project created to show for hiring assignment of Skylarks Lab.
 
+You can find the project [Live](https://mnamegaurav-moviedb.herokuapp.com) here.
+
 A simple REST API for a basic movie database interacting with external API. Here’s full specification of endpoints in this project:
 
 - `POST /movies`:
